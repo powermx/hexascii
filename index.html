@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="/lib/rapid02.css">
+<link rel="apple-touch-icon" sizes="180x180" href="/lib/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/lib/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/lib/favicon/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/lib/favicon/manifest.json">
+<link rel="mask-icon" href="/lib/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/lib/favicon/favicon.ico">
+<meta name="msapplication-config" content="/lib/favicon/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+<meta name="format-detection" content="telephone=no">
+
+<title>Hex a ASCII para Psiphon</title>
+<meta content="Hexadecimal code to ASCII/Unicode text string translator." name="description">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<style>
+   h1 { font-size:1.6rem; }
+   h2 { font-size:1.4rem; }
+   h4 { font-size:1.2rem; }
+   .calc { background:#eee8d5; padding:20px; }
+   .calc button i { vertical-align:middle; }
+   .calc textarea { font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif; }
+	.dtable th { position:sticky; top:0; background:#f0f0f0; }
+	.dtable td { width:90px; }
+	.dtable tr td { text-align:center; }
+   #hex.draghover { border: 10px dashed #888; }
+	@media all and (max-width: 320px) {
+		.calc button img { display:none; }
+	}
+   .mono { font-family: monospace; }
+</style>
+
+</head>
+<body>
+<div id="header">
+<div>
+<div class="gcse-search"></div>
+<div id="tooldiv">
+</div>
+</div>
+</div>
+<div id="wrapper">
+<div id="nav">
+
+</div>
+<div id="lcol">
+<div id="doc">
+
+<h1>Conventidor de HEX a Ascii para Psiphon</h1>
+<form class="calc" name="calcform" autocomplete="off">
+<div id="unitnav" class="form-row">
+<div class="form-group col">
+<label for="unit1">De</label>
+<select id="unit1" class="form-control">
+<option value="binary">Binario</option>
+<option value="decimal">Decimal</option>
+<option value="octal">Octal</option>
+<option value="hex" selected>Hexadecimal</option>
+<option value="ascii">Texto</option>
+</select>
+</div>
+<div class="form-group col">
+<label for="unit2">A</label>
+<select id="unit2" class="form-control">
+<option value="binary">Binario</option>
+<option value="decimal">Decimal</option>
+<option value="octal">Octal</option>
+<option value="hex">Hexadecimal</option>
+<option value="ascii" selected>Texto</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<button type="button" id="viewsel" title="View Selection" aria-label="View selection" onclick="OnViewSelection()" class="btn btn-secondary"><img src="https://www.rapidtables.com/lib/icons/material/svg/search_white_24dp.svg" loading="lazy" width="24" height="24" alt=""></button>
+<input type="file" id="fileElem" name="fileElem[]" accept="text/*,.c,.h,.cpp,.cs,.java,.py,.php" style="visibility:hidden; width:30px" onchange="OnFile()">
+</div>
+<div class="form-group">
+<label for="hex">Copia tu codigo Hex</label>
+<textarea id="hex" name="hex" rows="6" cols="60" class="form-control" spellcheck="false" placeholder="Hex ..." autofocus></textarea>
+</div>
+<div class="form-group">
+<label for="charsel">Tipo de Codificacion</label>
+<select class="form-control" id="charsel">
+<option value="" selected>ASCII</option>
+<option value="">Unicode</option>
+<option value="utf-8">UTF-8</option>
+<option value="utf-16le">UTF-16</option>
+<option value="utf-16le">UTF-16 little endian</option>
+<option value="utf-16be">UTF-16 big endian</option>
+<option value="windows-1252">Windows-1252</option>
+<option value="big5">Big5 (Chinese)</option>
+<option value="ibm866">CP866 (Russian)</option>
+<option value="euc-jp">EUC-JP (Japanese)</option>
+<option value="euc-kr">EUC-KR (Korean)</option>
+<option value="gb18030">GB 18030 (Chinese)</option>
+<option value="hz-gb-2312">GB 2312 (Chinese)</option>
+<option value="replacement">ISO-2022-CN (Chinese)</option>
+<option value="iso-2022-jp">ISO-2022-JP (Japanese)</option>
+<option value="windows-1252">ISO-8859-1 (Latin1/Western European)</option>
+<option value="iso-8859-2">ISO-8859-2 (Latin2/Eastern European)</option>
+<option value="iso-8859-3">ISO-8859-3 (Latin3/South European)</option>
+<option value="iso-8859-4">ISO-8859-4 (Latin4/North European)</option>
+<option value="iso-8859-5">ISO-8859-5 (Latin/Cyrillic)</option>
+<option value="iso-8859-6">ISO-8859-6 (Latin/Arabic)</option>
+<option value="iso-8859-7">ISO-8859-7 (Latin/Greek)</option>
+<option value="iso-8859-8">ISO-8859-8 (Latin/Hebrew)</option>
+<option value="iso-8859-8-i">ISO-8859-8-I (Latin/Hebrew)</option>
+<option value="iso-8859-10">ISO-8859-10 (Latin6/Nordic)</option>
+<option value="iso-8859-13">ISO-8859-13 (Latin7/Baltic Rim)</option>
+<option value="iso-8859-14">ISO-8859-14 (Latin8/Celtic)</option>
+<option value="iso-8859-15">ISO-8859-15 (Latin9/Western European)</option>
+<option value="iso-8859-16">ISO-8859-16 (Latin10/South-Eastern European)</option>
+<option value="koi8-r">KOI8-R (Russian)</option>
+<option value="koi8-u">KOI8-U (Ukrainian)</option>
+<option value="macintosh">Macintosh (x-mac-roman)</option>
+<option value="x-mac-cyrillic">Mac OS Cyrillic (x-mac-cyrillic)</option>
+<option value="shift_jis">Shift JIS (Japanese)</option>
+<option value="windows-874">Windows-874 (Thai)</option>
+<option value="windows-1250">Windows-1250 (Eastern European)</option>
+<option value="windows-1251">Windows-1251 (Cyrillic)</option>
+<option value="windows-1252">Windows-1252 (Western European)</option>
+<option value="windows-1253">Windows-1253 (Greek)</option>
+<option value="windows-1254">Windows-1254 (Turkish)</option>
+<option value="windows-1255">Windows-1255 (Hebrew)</option>
+<option value="windows-1256">Windows-1256 (Arabic)</option>
+<option value="windows-1257">Windows-1257 (Baltic)</option>
+<option value="windows-1258">Windows-1258 (Vietnamese)</option>
+<option value="x-user-defined">X-User-Defined</option>
+</select>
+</div>
+<div class="form-group">
+<button type="button" title="Convert" class="btn btn-success" onclick="OnConvert()"><img src="https://www.rapidtables.com/lib/icons/material/svg/autorenew_white_24dp.svg" loading="lazy" width="24" height="24" alt=""> Convertir</button>
+<button type="reset" title="Reset" class="btn btn-secondary"><img src="https://www.rapidtables.com/lib/icons/material/svg/clear_white_24dp.svg" loading="lazy" width="24" height="24" alt=""> Resetear</button>
+<button type="button" title="Swap conversion" class="btn btn-secondary" onclick="location.href='convertidor.html';"><img src="https://www.rapidtables.com/lib/icons/material/svg/swap_vert_white_24dp.svg" loading="lazy" width="24" height="24" alt=""> Swap</button>
+</div>
+<div class="form-group">
+<textarea id="txt" name="txt" rows="6" cols="60" readonly class="form-control" placeholder="Resultado ..."></textarea>
+</div>
+<div class="form-group">
+<button type="button" title="Copy" onclick="OnCopy()" class="btn btn-secondary"><img src="https://www.rapidtables.com/lib/icons/material/svg/content_copy_white_24dp.svg" loading="lazy" width="24" height="24" alt=""> Copy</button>
+<button type="button" title="Save" onclick="OnSave()" class="btn btn-secondary"><img src="https://www.rapidtables.com/lib/icons/material/svg/save_alt_white_24dp.svg" loading="lazy" width="24" height="24" alt=""> Save</button>
+</div>
+</form>
+
+
+
+</div>
+</div>
+<div id="footer">
+</p>
+</div>
+
+<div id="adngin-adhesive-0"></div>
+
+
+
+<script src="/lib/FileSaver.js-master/FileSaver.js" defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script async src="/lib/unitnav.js"></script>
+<script>
+   "use strict"
+   var isPolyfill=false;
+   var hexelem=document.getElementById("hex");
+   var charsel=document.getElementById("charsel");
+   var txtelem=document.getElementById("txt");
+   $(document).ready( function() {
+      $("#charsel").on("change", function() {
+         OnEncodingChange();
+         //var iencode = charsel.selectedIndex;
+         //if( isPolyfill==false && iencode>2 )
+         //   loadScripts();
+      });
+      if( typeof TextDecoder !== "function" ) {
+         loadScripts();
+      }
+      //$("#del").on("change", function() { OnDelChange() });
+      $("#hex").on("dragover", function(event) {
+         event.preventDefault();  
+         event.stopPropagation();
+         $(this).addClass('draghover');
+         return false;  
+      });
+      $("#hex").on("dragleave dragend", function(event) {
+         event.preventDefault();  
+         event.stopPropagation();
+         $(this).removeClass('draghover');
+         return false;  
+      });
+      $("#hex").on("drop", function(event) {
+         event.preventDefault();  
+         //event.stopPropagation();
+         $(this).removeClass('draghover');
+         var file = event.originalEvent.dataTransfer.files[0]
+         document.getElementById("fileElem").value="";
+         fileLoad(file);
+      });
+   });
+   function loadScripts()
+   {
+      isPolyfill=true;
+      var s0 = document.createElement('script');
+      s0.value = "window.TextEncoder = window.TextDecoder = null;";
+      document.head.appendChild(s0);
+      var s1 = document.createElement("script");
+      //s1.onload=function() {
+      //};
+      s1.type = "text/javascript";
+      //s1.async = true;
+      s1.src = "/lib/text-encoding/encoding-indexes.js";
+      document.head.appendChild(s1);
+      var s2 = document.createElement("script");
+      //s2.onload=function() {
+      //};
+      s2.type = "text/javascript";
+      //s2.async = true;
+      s2.src = "/lib/text-encoding/encoding.js";
+      document.head.appendChild(s2);
+   }
+   function OnOpen()
+   {
+      $("#fileElem").click();
+   }
+   function OnViewSelection()
+   {
+      var iencode = charsel.selectedIndex;
+      if( iencode>1 ) return;
+      var start=document.getElementById("hex").selectionStart;
+      var end=document.getElementById("hex").selectionEnd;
+      if( end-start==0 ) return;
+      OnConvert();
+      var hex=document.getElementById("hex").value;
+      var hexlen=hex.match(/[0-9a-fA-F]/g).join('').length;
+      var dellen=Math.round((hex.length-hexlen)/(hexlen/2-1));
+      var len=2+dellen;
+      txtelem.focus();
+      txtelem.selectionStart = start/len;
+      txtelem.selectionEnd = (end+dellen)/len;
+   }
+   function OnEncodingChange()
+   {
+      var iencode = charsel.selectedIndex;
+      if( iencode<1 )
+         document.getElementById("viewsel").disabled = false;
+      else
+         document.getElementById("viewsel").disabled = true;
+   }
+   function OnFile()
+   {
+      var file = document.getElementById("fileElem").files[0];
+      fileLoad(file);
+   }
+   function OnSave()
+   {
+      //var file=$("#file").val();
+      //if( file=="" ) file="file.txt";
+      fileSave("text-output.txt");
+   }
+   function fileLoad(file)
+   {
+      var reader = new FileReader();
+      reader.onloadend=function(e) {
+         if( e.target.readyState==FileReader.DONE ) {
+            var txt = e.target.result;
+            hexelem.value=txt;
+            hexelem.focus();
+         }
+      };
+      reader.readAsText(file, "UTF-8");
+   }
+   function fileSave(filename)
+   {
+      var txt=txtelem.value;
+      if( txt=="" ) return;
+      var blob = new Blob([txt], {type: "text/plain;charset=utf-8"});
+      saveAs(blob, filename);
+   }
+   function OnConvert()
+   {
+      var hex = hexelem.value;
+      var i=charsel.selectedIndex;
+      if( i==0 )
+      {
+         hex = hex.replace(/[^0-9A-Fa-f]/g,"");
+         hex = hex.match(/[0-9A-Fa-f]{2}/g);
+      }
+      else
+         hex = hex.match(/[0-9A-Fa-f]*/g).filter(function (el) {
+            return el!="";
+         });
+      var len = hex.length;
+      if( len==0 ) return;
+      var txt='';
+      var iencode = charsel.selectedIndex;
+      if( iencode<2 )
+      {
+         for(i=0; i<len; i++)
+         {
+            var h = hex[i];
+            var code = parseInt(h,16);
+            //var t = String.fromCharCode(code);
+            console.log(code);
+            var t = String.fromCodePoint(code);
+            txt += t;
+         }
+      }
+      else
+      {
+         var encoding = charsel.value;
+         hex = hex.map(function(item) {
+            return parseInt(item, 16);
+         });
+         var bytes = new Uint8Array(hex);
+         //txt = new TextDecoder(encoding, { NONSTANDARD_allowLegacyEncoding: true }).decode(bytes);
+         txt = new TextDecoder(encoding).decode(bytes);
+      }
+      document.calcform.txt.value = txt;
+   }
+   function OnSelect()
+   {
+      document.calcform.txt.select();
+   }
+   function OnCopy()
+   {
+      txtelem.select();
+      document.execCommand("copy");
+   }
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["WebPage","FAQPage"],
+  "name": "Hex to ASCII Text Converter",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": "How to convert Hex to Text?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "<ol>
+      <li>Get hex byte code</li>
+      <li>Convert hex byte to decimal</li>
+      <li>Continue with next hex byte</li>
+   </ol>
+   "
+    }
+  }, {
+    "@type": "Question",
+    "name": "How to use Hex to ASCII Text converter?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "<ol><li>Paste hex byte codes in input text box.</li>
+      <li>Select character encoding type.</li>
+      <li>Press the Convert button.</li></ol>
+      "
+    }
+  }, {
+    "@type": "Question",
+    "name": "How to convert Hex code to English?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "<ol>
+      <li>Get hex byte code</li>
+      <li>Convert hex byte to decimal</li>
+      <li>Continue with next hex byte</li>
+   </ol>
+   "
+    }
+  }, {
+    "@type": "Question",
+    "name": "How to convert 41 hex to text?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Use ASCII table:<br>41 = 4&times;16^1+1&times;16^0 = 64+1 = 65 = 'A' character
+      "
+    }
+  }, {
+    "@type": "Question",
+    "name": "How to convert 30 hex to text?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Use ASCII table:<br>30 = 3&times;16^1+0&times;16^0 = 48 = '0' character
+      "
+    }
+  }]
+}
+</script>
+
+
+</body>
+
+</html>
